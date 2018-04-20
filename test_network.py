@@ -9,11 +9,11 @@ import argparse
 import imutils
 import cv2
 
+#height and width of images when training
 dimensions = 28
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-
 ap.add_argument("-i", "--image", required=True,
 	help="path to input image")
 args = vars(ap.parse_args())
@@ -54,7 +54,7 @@ if probability == blue_triangle:
 if probability == yellow_rectangle:
 	label = "yellow_rectangle"
 if probability == yellow_triangle:
-	label = "yellow_rectangle"
+	label = "yellow_triangle"
 
 # build the label
 label = "{}: {:.2f}%".format(label, probability * 100)

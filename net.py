@@ -109,8 +109,8 @@ model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
 # train the network
 print("Training network")
-model.fit_generator(aug.flow(trainX, trainY, batch_size=32),
-validation_data=(testX, testY), steps_per_epoch=len(trainX) // 32,
-epochs=10, verbose=1)
+model.fit_generator(aug.flow(trainX, trainY, batch_size=5),
+validation_data=(testX, testY), steps_per_epoch=len(trainX) // 5,
+epochs=25, verbose=1)
 
 model.save("aircraft_detection.model")

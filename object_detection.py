@@ -9,6 +9,7 @@ import cv2
 #path to trained keras model
 MODEL_PATH = "aircraft_detection.model"
 
+#height and width of images when training
 dimensions = 28
 
 #load trained model
@@ -17,7 +18,8 @@ model = load_model(MODEL_PATH)
 
 #Loading video feed
 print("Starting video stream")
-vs = VideoStream(0).start()
+vs = VideoStream(0)
+vs.start()
 time.sleep(2.0)
 
 while True:
@@ -35,7 +37,6 @@ while True:
     (red_rectangle, red_triangle, blue_rectangle, blue_triangle, yellow_rectangle, yellow_triangle) = model.predict(image)[0]
     probability = max([red_rectangle, red_triangle, blue_rectangle, blue_triangle, yellow_rectangle, yellow_triangle])
 
-
     if probability == red_rectangle:
     	label = "red_rectangle"
     if probability == red_triangle:
@@ -47,7 +48,7 @@ while True:
     if probability == yellow_rectangle:
     	label = "yellow_rectangle"
     if probability == yellow_triangle:
-    	label = "yellow_rectangle"
+    	label = "yellow_triangle"
 
     label = "{}: {:.2f}%".format(label, probability * 100)
     frame = cv2.putText(frame, label, (10, 25), cv2.FONT_HERSHEY_SIMPLEX,
@@ -60,34 +61,5 @@ while True:
         break
 
 print("Closing")
-cv2.destroyAllWindows()
 vs.stop()
-
-
-"""
-This sort of check may need added
-
-#total consecutive frames tennis ball recognized
-TOTAL_CONSEC = 0
-#how many frames until confirming tennis tennis_ball
-TOTAL_THRESH = 20
-#tennis ball spotted
-TENNIS_BALL = False
-
-        
-    #if tennis ball is detected
-    if tennis_ball > not_tennis_ball:
-        label = "tennis_ball"
-        probability = tennis_ball
-        TOTAL_CONSEC += 1
-
-    #check if spotted in enough consecutive frames
-    if not TENNIS_BALL and TOTAL_CONSEC >= TOTAL_THRESH:
-        TENNIS_BALL = True
-
-        #processing, math, calling other functions here
-
-    else:
-        TOTAL_CONSEC = 0
-        TENNIS_BALL = False
-"""
+cv2.destroyAllWindows()
