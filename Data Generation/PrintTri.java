@@ -58,7 +58,7 @@ public class PrintTri extends Application{ //main class
             root.getChildren().add(canvas);
 
             //this will name each file uniquely
-            String filename = "bt" + iteration + ".png";
+            String filename = "rt" + iteration + ".png";
 		    File file = new File(filename);
             //try writing to file
             try {
@@ -79,19 +79,20 @@ public class PrintTri extends Application{ //main class
     //drawshapes function
 	private void drawShapes (GraphicsContext gc) {
 		Random random = new Random(); //declare a random
-    	int randvalue = random.nextInt(100); //random scaling int
+			int scale = random.nextInt(100);
+    	int randvalue = scale+50; //random scaling int
         int xrand = random.nextInt(350); //random x position int
         int yrand = random.nextInt(100); //random y position int
-		gc.setFill(randomColor()); //set the first fill, background color
+		gc.setFill(Color.WHITE); //set the first fill, background color
 		gc.fillRect(0, 0, 500, 300);//create a rectangle background
 		gc.setFill(Color.WHITE); //set fill for outer triangle
 		double xpoints[] = {(0.0+xrand), (0.0+xrand), (60.9+randvalue+xrand)};//create a group of xpoints for triangle
-    	double ypoints[] = {(300.0-yrand), (200.0-randvalue-yrand), (300.0-yrand)}; //ypoinys
+    	double ypoints[] = {(300.0-yrand), (200.0-randvalue-yrand), (300.0-yrand)}; //ypoints
     	int npoints = 3; //number of points for fillPolygon function
     	double xpoints2[] = {(0.0+xrand), (0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0)))};
     	double ypoints2[] = {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
 		gc.fillPolygon(xpoints, ypoints, npoints); //create the first triangle
-		gc.setFill(Color.BLUE); //fill color for triangle two
+		gc.setFill(Color.RED); //fill color for triangle two
 		gc.fillPolygon(xpoints2, ypoints2, npoints); //create the second triangle
 	}
     //returns a random rgb complex color

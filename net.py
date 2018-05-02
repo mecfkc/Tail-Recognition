@@ -1,6 +1,7 @@
 #USAGE
 # python net.py --dataset images
 
+from random import shuffle
 from keras.models import Sequential
 from keras.preprocessing.image import ImageDataGenerator
 from keras.layers.convolutional import Conv2D
@@ -66,6 +67,36 @@ for imagePath in imagePaths:
 # scale the raw pixel intensities to the range [0, 1]
 data = np.array(data, dtype="float") / 255.0
 labels = np.array(labels)
+
+data_mix = np.array(data)
+labels_mix = np.array(labels)
+
+num_images = 600
+count = 0
+
+for count_images in range(0, num_images):
+	if count == 100:
+		count = 0
+
+	if count % 6 == 0:
+		data_mix[count_images] = data[count]
+		labels_mix[count_images] = label[count]
+	elif count % 6 == 1:
+		data_mix[count_images] = data[count+100]
+		labels_mix[count_images] = label[count+100]
+	elif count % 6 == 2:
+		data_mix[count_images] = data[count+200]
+		labels_mix[count_images] = label[count+200]
+	elif count % 6 == 3:
+		data_mix[count_images] = data[count+300]
+		labels_mix[count_images] = label[count+300]
+	elif count % 6 == 4:
+		data_mix[count_images] = data[count+400]
+		labels_mix[count_images] = label[count+400]
+	else:
+		data_mix[count_images] = data[count+500]
+		labels_mix[count_images] = label[count+500]
+	count+= 1
 
 # partition the data into training and testing splits using 75% of
 # the data for training and the remaining 25% for testing
