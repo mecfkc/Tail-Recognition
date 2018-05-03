@@ -1,7 +1,7 @@
 #USAGE
 # python net.py --dataset images
 
-from random import shuffle
+import random
 from keras.models import Sequential
 from keras.preprocessing.image import ImageDataGenerator
 from keras.layers.convolutional import Conv2D
@@ -9,6 +9,7 @@ from keras.layers.convolutional import MaxPooling2D
 from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dense
+from keras.layers.core import Dropout
 from keras import backend as K
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array
@@ -68,35 +69,11 @@ for imagePath in imagePaths:
 data = np.array(data, dtype="float") / 255.0
 labels = np.array(labels)
 
-data_mix = np.array(data)
-labels_mix = np.array(labels)
-
-num_images = 600
-count = 0
-
-for count_images in range(0, num_images):
-	if count == 100:
-		count = 0
-
-	if count % 6 == 0:
-		data_mix[count_images] = data[count]
-		labels_mix[count_images] = label[count]
-	elif count % 6 == 1:
-		data_mix[count_images] = data[count+100]
-		labels_mix[count_images] = label[count+100]
-	elif count % 6 == 2:
-		data_mix[count_images] = data[count+200]
-		labels_mix[count_images] = label[count+200]
-	elif count % 6 == 3:
-		data_mix[count_images] = data[count+300]
-		labels_mix[count_images] = label[count+300]
-	elif count % 6 == 4:
-		data_mix[count_images] = data[count+400]
-		labels_mix[count_images] = label[count+400]
-	else:
-		data_mix[count_images] = data[count+500]
-		labels_mix[count_images] = label[count+500]
-	count+= 1
+# randomizes order of images to reduce chance of bias
+rng_state = np.random.get_state()
+np.random.shuffle(data)
+np.random.set_state(rng_state)
+np.random.shuffle(labels)
 
 # partition the data into training and testing splits using 75% of
 # the data for training and the remaining 25% for testing
@@ -108,9 +85,7 @@ trainY = to_categorical(trainY, num_classes=classes)
 testY = to_categorical(testY, num_classes=classes)
 
 # construct the image generator for data augmentation
-aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
-	height_shift_range=0.1, shear_range=0.2, zoom_range=0.2,
-	horizontal_flip=True, fill_mode="nearest")
+aug = ImageDataGenerator(rotation_range=5)
 
 print("Compiling model")
 # input 28x28 images
@@ -128,20 +103,35 @@ model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
 # first (and only) set of FC => RELU layers
 model.add(Flatten())
+model.add(Dropout(0.1))
 model.add(Dense(500))
 model.add(Activation("relu"))
 
 # softmax classifier
+model.add(Dropout(0.1))
 model.add(Dense(classes))
 model.add(Activation("softmax"))
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-model.compile(loss='categorical_crossentropy', optimizer=sgd)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=["accuracy"])
 
 # train the network
 print("Training network")
-model.fit_generator(aug.flow(trainX, trainY, batch_size=5),
-validation_data=(testX, testY), steps_per_epoch=len(trainX) // 5,
+H = model.fit_generator(aug.flow(trainX, trainY, batch_size=32),
+validation_data=(testX, testY), steps_per_epoch=len(trainX) // 32,
 epochs=25, verbose=1)
 
 model.save("aircraft_detection.model")
+
+plt.style.use("ggplot")
+plt.figure()
+N = 25
+plt.plot(np.arange(0, N), H.history["loss"], label="train_loss")
+plt.plot(np.arange(0, N), H.history["val_loss"], label="val_loss")
+plt.plot(np.arange(0, N), H.history["acc"], label="train_acc")
+plt.plot(np.arange(0, N), H.history["val_acc"], label="val_acc")
+plt.title("Training Loss and Accuracy")
+plt.xlabel("Epoch #")
+plt.ylabel("Loss/Accuracy")
+plt.legend(loc="lower left")
+plt.savefig('plot.png')

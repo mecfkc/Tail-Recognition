@@ -1,6 +1,11 @@
 #File for testing network
 # USAGE
 # python test_network.py --image test_rr.png
+# python test_network.py --image test_br.png
+# python test_network.py --image test_yr.png
+# python test_network.py --image test_rt.png
+# python test_network.py --image test_bt.png
+# python test_network.py --image test_yt.png
 
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
@@ -36,12 +41,12 @@ model = load_model("aircraft_detection.model")
 (red_rectangle, red_triangle, blue_rectangle, blue_triangle, yellow_rectangle, yellow_triangle) = model.predict(image)[0]
 probability = max([red_rectangle, red_triangle, blue_rectangle, blue_triangle, yellow_rectangle, yellow_triangle])
 print(probability)
-print(red_rectangle)
-print(red_triangle)
-print(blue_rectangle)
-print(blue_triangle)
-print(yellow_rectangle)
-print(yellow_triangle)
+print("Red rectangle:    ", red_rectangle)
+print("Red triangle:     ", red_triangle)
+print("Blue rectangle:   ", blue_rectangle)
+print("Blue triangle:    ", blue_triangle)
+print("Yellow rectangle: ", yellow_rectangle)
+print("Yellow triangle:  ", yellow_triangle)
 
 if probability == red_rectangle:
 	label = "red_rectangle"
