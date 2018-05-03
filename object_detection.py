@@ -18,7 +18,7 @@ model = load_model(MODEL_PATH)
 
 #Loading video feed
 print("Starting video stream")
-vs = VideoStream(0)
+vs = VideoStream(2)
 vs.start()
 time.sleep(2.0)
 

@@ -52,17 +52,12 @@ public class PrintTrap extends Application{
 
 	private void drawShapes (GraphicsContext gc) {
 		Random random = new Random();
-    	int randvalue = random.nextInt(200);
-			int ranscale = random.nextInt(200)+50;
+    int randvalue = random.nextInt(200);
+		int randscale = random.nextInt(200)+50;
 		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, 500, 300);
-		gc.setFill(Color.WHITE);
-		double xpoints[] = {(274.0-randvalue)*(ranscale+100)/100, (228.0-randvalue)*(ranscale+100)/100, (200.0-randvalue)*(ranscale+100)/100, (300.0-randvalue)*(ranscale+100)/100 };
-    	double ypoints[] = {(0.0+randvalue)*(ranscale+100)/100, (0.0+randvalue)*(ranscale+100)/100, (133.3+randvalue)*(ranscale+100)/100, (133.3+randvalue)*(ranscale+100)/100 };
-    	int npoints = 4;
-		gc.fillPolygon(xpoints, ypoints, npoints);
 		gc.setFill(Color.YELLOW);
-        gc.fillRect((240.2-randvalue), (0.0+randvalue), 21*(ranscale+100)/100 , 133.3*(ranscale+100)/100);
+    gc.fillRect((240.2-randvalue), (0.0+randvalue), 21*(randscale+100)/100 , 133.3*(randscale+100)/100);
 	}
 
 	public Paint randomColor() {

@@ -51,14 +51,14 @@ public class PrintTri extends Application{ //main class
             GraphicsContext gc = canvas.getGraphicsContext2D();
 
             //create a drawing
-            drawShapes(gc);
+            drawShapes(gc, iteration);
             canvas.snapshot(null, wim);
 
             //add canvas to stack pane
             root.getChildren().add(canvas);
 
             //this will name each file uniquely
-            String filename = "yt" + iteration + ".png";
+            String filename = "t" + iteration + ".png";
 		    File file = new File(filename);
             //try writing to file
             try {
@@ -77,31 +77,42 @@ public class PrintTri extends Application{ //main class
 	}
 
     //drawshapes function
-	private void drawShapes (GraphicsContext gc) {
+	private void drawShapes (GraphicsContext gc, int count) {
 		Random random = new Random(); //declare a random
-			int scale = random.nextInt(200);
-    	int randvalue = scale+150; //random scaling int
-        int xrand = random.nextInt(350); //random x position int
-        int yrand = random.nextInt(100); //random y position int
+    int randvalue = random.nextInt(150)+175; //random scaling int
+    int xrand = random.nextInt(350); //random x position int
+    int yrand = random.nextInt(100); //random y position int
 		gc.setFill(Color.WHITE); //set the first fill, background color
 		gc.fillRect(0, 0, 500, 300);//create a rectangle background
 		gc.setFill(Color.WHITE); //set fill for outer triangle
-		double xpoints[] = {(0.0+xrand), (0.0+xrand), (60.9+randvalue+xrand)};//create a group of xpoints for triangle
-    	double ypoints[] = {(300.0-yrand), (200.0-randvalue-yrand), (300.0-yrand)}; //ypoints
-    	int npoints = 3; //number of points for fillPolygon function
-    	double xpoints2[] = {(0.0+xrand), (0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0)))};
-    	double ypoints2[] = {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
-		gc.fillPolygon(xpoints, ypoints, npoints); //create the first triangle
-		gc.setFill(Color.YELLOW); //fill color for triangle two
-		gc.fillPolygon(xpoints2, ypoints2, npoints); //create the second triangle
-	}
-    //returns a random rgb complex color
-	public Paint randomColor() {
-        Random random = new Random();
-        int r = random.nextInt(255);
-        int g = random.nextInt(255);
-        int b = random.nextInt(255);
-        return Color.rgb(r, g, b);
+    int npoints = 3; //number of points for fillPolygon function
+
+		double xpoints[];
+		double ypoints[];
+
+		if(count >= 0 && count < 25)
+		{
+			xpoints = new double[] {(0.0+xrand), (0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0)))};
+	    ypoints = new double[] {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
+		}
+		else if(count >= 25 && count < 50)
+		{
+			xpoints = new double[] {(0.0+xrand), (0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0)))};
+	    ypoints = new double[] {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (-yrand+251.2-(randvalue*(20.0/41.0)))};
+		}
+		else if(count >= 50 && count < 75)
+		{
+			xpoints = new double[] {(0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0), (29.2+xrand+(randvalue*(12.0/25.0)))};
+	    ypoints = new double[] {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
+		}
+		else
+		{
+			xpoints = new double[] {(0.0+xrand), (0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0)))};
+	    ypoints = new double[] {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
+		}
+
+		gc.setFill(Color.BLUE); //fill color for triangle two
+		gc.fillPolygon(xpoints, ypoints, npoints); //create the second triangle
 	}
 
 }
