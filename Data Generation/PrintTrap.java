@@ -30,11 +30,11 @@ public class PrintTrap extends Application{
          int iteration = 0;
         while (iteration < 100){
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawShapes(gc);
+        drawShapes(gc, iteration);
         canvas.snapshot(null, wim);
         root.getChildren().add(canvas);
 
-        String filename = "ytr" + iteration + ".png";
+        String filename = "tr" + iteration + ".png";
 		File file = new File(filename);
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(wim, null), "png", file);
@@ -50,14 +50,22 @@ public class PrintTrap extends Application{
     	launch(args);
 	}
 
-	private void drawShapes (GraphicsContext gc) {
+	private void drawShapes (GraphicsContext gc, int count) {
 		Random random = new Random();
     int randvalue = random.nextInt(200);
-		int randscale = random.nextInt(200)+50;
+		int randscale = random.nextInt(250)+50;
 		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, 500, 300);
-		gc.setFill(Color.YELLOW);
-    gc.fillRect((240.2-randvalue), (0.0+randvalue), 21*(randscale+100)/100 , 133.3*(randscale+100)/100);
+		gc.setFill(Color.RED);
+
+		if (count < 50)
+		{
+			gc.fillRect((240.2-randvalue), (0.0+randvalue), 21*(randscale+100)/100 , 133.3*(randscale+100)/100);
+		}
+		else
+		{
+			gc.fillRect((240.2-randvalue), (0.0+randvalue), 133.3*(randscale+100)/100 , 21*(randscale+100)/100);
+		}
 	}
 
 	public Paint randomColor() {

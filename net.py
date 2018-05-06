@@ -103,12 +103,11 @@ model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
 # first (and only) set of FC => RELU layers
 model.add(Flatten())
-model.add(Dropout(0.1))
 model.add(Dense(500))
 model.add(Activation("relu"))
+model.add(Dropout(0.5))
 
 # softmax classifier
-model.add(Dropout(0.1))
 model.add(Dense(classes))
 model.add(Activation("softmax"))
 

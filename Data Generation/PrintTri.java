@@ -102,16 +102,16 @@ public class PrintTri extends Application{ //main class
 		}
 		else if(count >= 50 && count < 75)
 		{
-			xpoints = new double[] {(0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0), (29.2+xrand+(randvalue*(12.0/25.0)))};
+			xpoints = new double[] {(0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0))), (29.2+xrand+(randvalue*(12.0/25.0)))};
 	    ypoints = new double[] {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
 		}
 		else
 		{
-			xpoints = new double[] {(0.0+xrand), (0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0)))};
-	    ypoints = new double[] {(300.0-yrand), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
+			xpoints = new double[] {(0.0+xrand), (29.2+xrand+(randvalue*(12.0/25.0))), (29.2+xrand+(randvalue*(12.0/25.0)))};
+	    ypoints = new double[] {(-yrand+251.2-(randvalue*(20.0/41.0))), (-yrand+251.2-(randvalue*(20.0/41.0))), (300.0-yrand)};
 		}
 
-		gc.setFill(Color.BLUE); //fill color for triangle two
+		gc.setFill(Color.RED); //fill color for triangle two
 		gc.fillPolygon(xpoints, ypoints, npoints); //create the second triangle
 	}
 
